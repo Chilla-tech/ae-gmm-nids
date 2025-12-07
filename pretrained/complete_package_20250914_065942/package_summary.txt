@@ -1,0 +1,27 @@
+
+AE+GMM Model Package with Fixed SHAP Explainers Which the Research article will be based on
+===========================================================================================
+Created: 20250914_065942
+Location: models/AEGMM_CSECICIDS2018_Separate_SHAP_V2/complete_package_20250914_065942
+
+Package Contents:
+├── aegmm_model_package.joblib          # Main models and data
+├── ae_shap_explainer.joblib            # Pre-trained AE SHAP explainer
+├── gmm_shap_explainer.joblib           # Pre-trained GMM SHAP explainer
+├── model_components.joblib             # Components for SHAP recreation
+├── individual_components/              # Individual model files
+└── package_summary.txt                 # This file
+
+Models Included:
+- Autoencoder: 17 features → 16 latent → 17 reconstruction
+- GMM: 21 components, full covariance
+- Scaler: StandardScaler
+- Label Encoder: 2 classes
+
+Performance:
+- Stage 2 (AE+GMM): 0.991 accuracy
+
+Thresholds:
+- MAE Threshold: 0.135069
+- GMM Threshold: 2.741976
+

@@ -1,0 +1,67 @@
+# Ignore data files (except toy dataset)
+data/*.csv
+data/raw/
+data/processed/
+!data/toy_dataset.csv
+
+# Ignore trained model outputs (except pretrained)
+aegmm_nids(full_train)/AEGMM_hybrid_*/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Model files (if not version controlled)
+*.h5
+*.pkl
+*.pth
+*.pt
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+
+# OS
+Thumbs.db
+.DS_Store
