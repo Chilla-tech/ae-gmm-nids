@@ -1,4 +1,4 @@
-# AE-GMM Network Intrusion Detection System with Explainability
+# AE-GMM: A Hybrid, Interpretable Approach for Robust Network Intrusion Detection
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
@@ -94,7 +94,7 @@ ae_gmm_nids/
 - shap>=0.44
 - joblib>=1.3
 - tqdm>=4.66
-- scikit-learn==1.6.1
+- scikit-learn>=1.6.1
 - statsmodels>=0.14.0
 
 ### Setup
