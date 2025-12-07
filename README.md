@@ -84,14 +84,24 @@ ae_gmm_nids/
 
 ### Requirements
 - Python 3.8 or higher
-- 16GB RAM (minimum)
-- GPU (optional, but recommended for training)
+- numpy>=1.24
+- pandas>=1.5
+- scikit-learn>=1.3
+- tensorflow>=2.12
+- keras>=2.12
+- matplotlib>=3.7
+- seaborn>=0.12
+- shap>=0.44
+- joblib>=1.3
+- tqdm>=4.66
+- scikit-learn==1.6.1
+- statsmodels>=0.14.0
 
 ### Setup
 
 1. Clone this repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Chilla-tech/ae-gmm-nids.git
 cd ae_gmm_nids
 ```
 
