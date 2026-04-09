@@ -93,8 +93,8 @@ ae_gmm_nids/
 
 1. Clone this repository:
 ```bash
-git clone <repository-url>
-cd ae_gmm_nids
+git clone https://anonymous.4open.science/r/ae-gmm-nids-BD18
+cd ae-gmm-nids-BD18
 ```
 
 2. Create a virtual environment (recommended):
