@@ -1,6 +1,6 @@
-# Full training script for AE + GMM hybrid model on CIC-IDS2017 dataset
+# Full training script for AE + GMM hybrid model
 # Saves trained model package with pre-fitted scaler and SHAP explainers
-# Usage: python full_train.py --data <path_to_CIC-IDS2017_subset_csv>
+# Usage: python full_train.py --data <path_to_dataset_csv> --top_n 23 --corr_thr 0.9 --total 286000
 
 import os
 import joblib
@@ -79,7 +79,7 @@ def main(args):
 
     # Save package
     ts = datetime.now().strftime('%Y%m%d_%H%M%S')
-    out_dir = os.path.join('aegmm_nids(full_train)', f'AEGMM_hybrid_{ts}')
+    out_dir = os.path.join('aegmm_nids(full_train)', f'AEGMM_hybrid_{ts}') # Need to create this aegmm_nids(full_train) directory first to avoid error.
     os.makedirs(out_dir, exist_ok=True)
 
     models_package = {
@@ -101,7 +101,7 @@ def main(args):
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser()
-    p.add_argument('--data', required=True, help='Path to CSECIC-IDS2018 subset CSV')
+    p.add_argument('--data', required=True, help='Path to Data CSV')
     p.add_argument('--top_n', type=int, default=23)
     p.add_argument('--corr_thr', type=float, default=0.9)
     p.add_argument('--total', type=int, default=286000)
