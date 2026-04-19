@@ -11,7 +11,6 @@ from inference.calculate_thres import mae_val_threshold, gmm_val_threshold
 
 class AEGMMPipeline:
     def __init__(self):
-        #self.scaler = scaler # Pre-fitted scaler from preprocessing
         self.autoencoder = None
         self.gmm = None
         self.threshold_mae = None

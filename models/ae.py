@@ -24,5 +24,4 @@ def build_autoencoder(input_dim: int, l1=1e-5, lr=1e-3, clipN=1.0):
 
     model = Model(inputs=inp, outputs=out)
     model.compile(loss='mae', optimizer=Adam(learning_rate=lr, clipnorm=clipN))
-    #model.summary()
     return model

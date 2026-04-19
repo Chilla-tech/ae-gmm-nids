@@ -98,10 +98,6 @@ def scale_for_ae(train_df, val_df, test_df, label_col='Attack Type'):
     X_test_all   = scaler.transform(test_df.drop(columns=[label_col]))
     return scaler, X_train_norm, X_val_norm, X_test_all
 
-#def get_scaler():
-#    """Return configured scaler"""
-#    return StandardScaler()
-
 def get_label_encoder():
     """Return configured label encoder"""
     return LabelEncoder()

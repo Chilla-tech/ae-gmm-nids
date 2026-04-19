@@ -7,16 +7,16 @@ This repository contains the implementation and artifacts for our research on **
 
 ## Overview
 
-This work presents a novel two-stage hybrid approach for network intrusion detection that combines:
+A two-stage hybrid approach for network intrusion detection:
 - **Stage 1**: Autoencoder (AE) learns normal traffic patterns; anomalies produce higher reconstruction errors
 - **Stage 2**: Gaussian Mixture Model (GMM) models the distribution of reconstruction error vectors for probabilistic anomaly scoring
-- **Explainability**: SHAP (SHapley Additive exPlanations) integration for feature-level attribution
+- **Explainability**: SHAP integration for feature-level attribution
 
 ## Key Results
 
 | Metric | Stage 1 (AE Only) | Stage 2 (AE+GMM) |
 |--------|-------------------|------------------|
-| **F1-Score ** | - | **99.1%** |
+| **F1-Score** | - | **99.1%** |
 | **MAE Threshold** | 0.135069 | - |
 | **GMM Threshold** | - | 2.741976 |
 | **Features** | 17 (selected from 80+) | 17 |
@@ -26,212 +26,97 @@ This work presents a novel two-stage hybrid approach for network intrusion detec
 
 ```
 ae_gmm_nids/
-├── README.md                          # This file
-├── LICENSE                            # MIT License
-├── CITATION.md                        # citations
-├── requirements.txt                   # Python dependencies
-├── .gitignore                         # Git ignore rules
-│
-├── data/                              # Dataset directory
-│   ├── README.md                      # Dataset instructions
-│   └── toy_dataset.csv                # Small dataset for verification (2-3K samples)
-│
-├── models/                            # Model definitions
-│   ├── ae.py                          # Autoencoder implementation
-│   ├── gmm.py                         # GMM implementation
-│   └── ae_gmm_hybrid.py               # Hybrid pipeline
-│
-├── training/                          # Training scripts
-│   ├── train_ae.py                    # AE training logic
-│   └── full_train.py                  # Full pipeline training (main entry)
-│
-├── inference/                         # Inference scripts
-│   ├── calculate_thres.py             # Threshold computation
-│   ├── load_models_n_explainers.py    # Model loading utilities
-│   └── predict_n_explain.py           # Prediction with SHAP explanations
-│
-├── utils/                             # Utility functions
-│   ├── prepro.py                      # Data preprocessing
-│   ├── evaluation.py                  # Evaluation metrics
-│   ├── visual.py                      # Visualization functions
-│   └── shap_aegmm_wrappers.py         # SHAP wrapper classes
-│
-├── scripts/                           # Helper scripts
-│   └── create_toy_dataset.py          # Generate toy dataset from full data
-│
-├── pretrained/                        # Pretrained models (paper baseline)
-│   ├── README.md                      # Model documentation
+├── README.md
+├── LICENSE
+├── CITATION.md
+├── requirements.txt
+├── data/
+│   ├── README.md              # Dataset download instructions
+│   └── toy_dataset.csv        # 5K samples for quick verification
+├── models/
+│   ├── ae.py                  # Autoencoder implementation
+│   ├── gmm.py                 # GMM implementation
+│   └── ae_gmm_hybrid.py       # Hybrid pipeline
+├── training/
+│   ├── train_ae.py            # AE training logic
+│   └── full_train.py          # Full pipeline training
+├── inference/
+│   ├── calculate_thres.py     # Threshold computation
+│   ├── load_models_n_explainers.py
+│   └── predict_n_explain.py   # Prediction with SHAP explanations
+├── utils/
+│   ├── prepro.py              # Data preprocessing
+│   ├── evaluation.py          # Evaluation metrics
+│   ├── visual.py              # Visualization
+│   └── shap_aegmm_wrappers.py # SHAP wrapper classes
+├── pretrained/                # Pretrained models (paper baseline)
 │   └── complete_package_20250914_065942/
-│       ├── aegmm_model_package.joblib
-│       ├── ae_shap_explainer.joblib
-│       └── gmm_shap_explainer.joblib
-│
-├── aegmm_nids(full_train)/            # Output directory for training runs
-│   └── README.md                      # Directory purpose
-│
-├── results/                           # Reference outputs for verification
-│   ├── README.md                      # Output descriptions
-│   ├── confusion_matrix_ae.png
-│   ├── confusion_matrix_gmm.png
-│   └── classification_reports.txt
-│
-└── demo_notebooks/                         # Demonstration notebooks
-    ├── Demo.ipynb                     # Full training pipeline demo
-    ├── AEGMM_Demo.ipynb               # Demo for newly trained models
+├── results/                   # Reference outputs for verification
+└── demo_notebooks/
     └── pretrained/
-        └── test_pre_ae_gmm.ipynb      # Pretrained model demo (primary)
+        └── test_pre_ae_gmm.ipynb   # Primary verification notebook
 ```
 
 ## Installation
 
 ### Requirements
-- Python 3.8 or higher
-- 16GB RAM (minimum)
-- GPU (optional, but recommended for training)
+- Python 3.8+
+- 8GB RAM minimum (for inference)
 
 ### Setup
 
-1. Clone this repository:
-```bash
-git clone https://anonymous.4open.science/r/ae-gmm-nids-BD18
-cd ae-gmm-nids-BD18
-```
+1. Download this repository:
+
+   **During review**: Download the ZIP from https://anonymous.4open.science/r/ae-gmm-nids-BD18 and extract it.
+
 
 2. Create a virtual environment (recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate
+   ```
 
 3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-**Note**: For GPU support with TensorFlow, install the GPU version:
-```bash
-pip install tensorflow[and-cuda]>=2.12
-```
+## Quick Verification (Path A)
 
-## Quick Verification
+Uses the pretrained model and toy dataset included in this repository. No full dataset download required.
 
-We provide two paths for verification:
-
-### Path A: Quick Verification 
-
-Uses the pretrained model and toy dataset included in this repository.
-
-1. Install dependencies (see Installation above)
+1. Install dependencies (see above)
 
 2. Run the pretrained model demonstration notebook:
-```bash
-jupyter notebook demo_notebooks/pretrained/test_pre_ae_gmm.ipynb
-```
+   ```bash
+   jupyter notebook demo_notebooks/pretrained/test_pre_ae_gmm.ipynb
+   ```
 
-3. Compare outputs with reference results in `results/` folder
+3. Compare outputs with reference results in `results/`
 
 **Expected outputs**:
-- Stage 1 (AE) classification report
-- Stage 2 (AE+GMM) classification report
+- Stage 1 (AE) and Stage 2 (AE+GMM) classification reports
 - Confusion matrices for both stages
-- SHAP waterfall plots explaining predictions
-- MAE and GMM score distribution histograms
+- MAE and GMM score distribution plots
+- SHAP waterfall plots explaining sample predictions
 
-### Path B: Full Reproduction 
+## Full Reproduction (Path B)
 
 Reproduces the complete training pipeline from scratch.
 
 1. Download the full CSE-CIC-IDS2018 dataset (see `data/README.md`)
 
 2. Run the full training pipeline:
-```bash
-python training/full_train.py --data data/raw/CSECICIDS2018_improved.csv --top_n 23 --corr_thr 0.9 --total 286000
-```
-
-3. Trained models will be saved to `aegmm_nids(full_train)/AEGMM_hybrid_<timestamp>/`
-
-4. Use `demo_notebooks/AEGMM_Demo.ipynb` to test the newly trained model
-
-**Training parameters**:
-- `--data`: Path to the dataset CSV
-- `--top_n 23`: Select top 23 features via Random Forest importance
-- `--corr_thr 0.9`: Remove features with correlation > 0.9
-- `--total 286000`: Create balanced dataset with 286k samples (68.3% BENIGN, 31.7% attacks)
-
-## Usage
-
-### Quick Inference with Pretrained Model
-
-```python
-from inference.load_models_n_explainers import load_complete_package
-from inference.predict_n_explain import predict_and_visualize_single_flow
-
-# Load pretrained model
-model_dir = "pretrained/complete_package_20250914_065942"
-package = load_complete_package(model_dir)
-
-# Make prediction with explanation
-sample_flow = ...  # Your network flow features
-predict_and_visualize_single_sample(package, sample_flow, actual_label)
-```
-
-### Training a New Model
-
-See `training/full_train.py` for the complete training pipeline or follow `demo_notebooks/Demo.ipynb` for a step-by-step walkthrough.
+   ```bash
+   python training/full_train.py --data data/raw/CSECICIDS2018_improved.csv --top_n 23 --corr_thr 0.9 --total 286000
+   ```
 
 ## Dataset
 
-This work uses the **CSE-CIC-IDS2018-Improved** dataset, an improved version of the CIC-IDS2018 dataset.
+Uses the **CSE-CIC-IDS2018-Improved** dataset. See `data/README.md` for download instructions.
 
-- **Download**: See `data/README.md` for instructions
-- **Attack Types**: 14 types (DDoS variants, DoS, Infiltration, SSH/FTP Brute Force, Botnet, Web attacks)
-- **Preprocessing**: Feature selection reduces ~90 features to 17 via Random Forest + correlation pruning
-
-A toy dataset (`data/toy_dataset.csv`) with 5K samples is included for quick verification.
-
-## Model Architecture
-
-### Autoencoder
-- **Encoder**: 90 → 70 → 30 → 17 → 16 (latent space)
-- **Decoder**: 16 → 17 → 30 → 70 → 90 → input_dim
-- **Regularization**: L1 regularization for sparsity
-- **Optimizer**: Adam with MAE loss
-- **Training**: Only on BENIGN samples (anomaly detection paradigm)
-
-### Gaussian Mixture Model
-- **Components**: 21 components
-- **Covariance**: Full covariance matrix
-- **Input**: Reconstruction error vectors from AE
-- **Output**: Log-probability scores (lower = more anomalous)
-
-### Thresholds
-- **MAE Threshold**: 98th percentile of validation BENIGN reconstruction errors
-- **GMM Threshold**: 1.2th percentile of validation GMM scores
-
-## Explainability
-
-SHAP (SHapley Additive exPlanations) integration provides:
-- Feature-level attribution for both AE and GMM stages
-- Waterfall plots showing feature contributions
-
-See `demo_notebooks/pretrained/test_pre_ae_gmm.ipynb` for examples.
-
+A toy dataset (`data/toy_dataset.csv`, 5K samples) is included for quick verification.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Hardware Requirements
-
-### Minimum (for inference):
-- CPU: Multi-core processor
-- RAM: 8GB
-- Storage: 100MB for models + dataset size
-
-### Recommended (for training):
-- CPU: Intel i7 or AMD Ryzen 7 (8+ cores)
-- RAM: 16GB
-- GPU: NVIDIA GPU with 4GB+ VRAM (optional but speeds up training)
-- Storage: 5GB (dataset + models + outputs)
-
-
+MIT License — see [LICENSE](LICENSE) for details.

@@ -95,7 +95,6 @@ def main(args):
         'ae_gmm_perf_rep' : gmm_rep
     }
     joblib.dump(models_package, os.path.join(out_dir, 'aegmm_model_package.joblib'))
-    #print(f'Saved: {out_dir}')
     joblib.dump(ae_explainer, os.path.join(out_dir, 'ae_shap_explainer.joblib'))
     joblib.dump(gmm_explainer, os.path.join(out_dir, 'gmm_shap_explainer.joblib'))
     print(f'Models and SHAP explainers saved at {out_dir}')
