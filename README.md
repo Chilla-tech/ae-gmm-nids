@@ -67,7 +67,7 @@ ae_gmm_nids/
 
 1. Download this repository:
 
-   **During review**: Download the ZIP from https://anonymous.4open.science/r/ae-gmm-nids-BD18 and extract it.
+   Download the ZIP from https://anonymous.4open.science/r/ae-gmm-nids-BD18
 
 
 2. Create a virtual environment (recommended):
