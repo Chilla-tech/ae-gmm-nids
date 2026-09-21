@@ -22,7 +22,7 @@ def main(args):
     df = load_and_clean(args.data)
 
     # Create subsampled balanced dataset because of limited resources
-    baln_df = make_balanced_split(df, ratio_normal_to_intrusions=0.317, total=286000) 
+    baln_df = make_balanced_split(df, total=args.total)
     
     # Feature selection then correlation pruning
     top_feats = rf_top_features(baln_df, top_n=args.top_n)

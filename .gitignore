@@ -82,3 +82,9 @@ NEXT_STEPS.md
 SETUP_COMPLETE.md
 pretrained/misc/
 pretrained/view_per_rep.ipynb
+
+# Held-out test split of the paper (row indices)
+!data/heldout_test_indices.csv
+
+# Exact held-out test split row indices (regenerable via scripts/reproduce_heldout_eval.py; kept locally only)
+data/heldout_test_indices.csv

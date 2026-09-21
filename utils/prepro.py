@@ -29,8 +29,8 @@ def load_and_clean(csv_path: str) -> pd.DataFrame:
         df = df[~df['Label'].astype(str).str.contains('Attempted', na=False)]
     # drop obvious identifiers
     df = df.drop(columns=[c for c in DROP_COLS if c in df.columns], errors='ignore')
-    # duplicates and infinities
-    df = df.drop_duplicates()
+    # infinities -> NaN. NOTE: duplicates are intentionally NOT dropped: the published results were
+    # obtained on the data without deduplication (see README, "Reproducing the paper's split").
     df = df.replace([np.inf, -np.inf], np.nan)
 
     for col in ['Flow Bytes/s','Flow Packets/s']:
@@ -45,14 +45,20 @@ def load_and_clean(csv_path: str) -> pd.DataFrame:
     # drop 1-unique columns
     nunique = df.nunique()
     df = df[nunique[nunique > 1].index]
-    # drop rows without target
+    # drop rows without target. Labels missing from ATTACK_MAP (e.g. 'DoS Slowloris', 'Web Attack - SQL')
+    # are discarded here, exactly as in the experiments reported in the paper.
+    n_unmapped = int(df['Attack Type'].isna().sum())
+    if n_unmapped:
+        print(f'Discarding {n_unmapped} flows whose label is not in ATTACK_MAP')
     df = df.dropna(subset=['Attack Type'])
     return df
 
-def rf_top_features(df: pd.DataFrame, label_col='Attack Type', top_n=23, random_state=0):
+def rf_top_features(df: pd.DataFrame, label_col='Attack Type', top_n=23, random_state=0, split_seed=42):
     print(f'Selecting top {top_n} features using Random Forest...')
     X = df.drop(columns=[label_col])
     y = df[label_col]
+    # As in the paper's experiments, the forest is fit on a stratified 70% split of the subsample
+    X, _, y, _ = train_test_split(X, y, test_size=0.30, random_state=split_seed, stratify=y)
     le = LabelEncoder()
     y_enc = le.fit_transform(y)
     model = RandomForestClassifier(
@@ -78,11 +84,12 @@ def drop_correlated(df: pd.DataFrame, threshold=0.9):
     print(f'Remaining features: {df.shape[1] - len(to_drop)}')
     return df.drop(columns=list(to_drop)), list(to_drop)
 
-def make_balanced_split(df: pd.DataFrame, label_col='Attack Type', total=286000, ratio_normal_to_intrusions=0.31, seed=42):
-    print(f'Creating balanced dataset with total={total} and normal:intrusions={ratio_normal_to_intrusions}...')
+def make_balanced_split(df: pd.DataFrame, label_col='Attack Type', total=286000, intrusion_fraction=1/3.15, seed=42):
+    """Subsample `total` flows, of which a fraction `intrusion_fraction` (default 1/3.15, ~31.7%) are intrusions."""
+    print(f'Creating subsampled dataset with total={total} and intrusion fraction={intrusion_fraction:.4f}...')
     normal = df[df[label_col]=='BENIGN']
     intru = df[df[label_col]!='BENIGN']
-    intru_needed = int(total * ratio_normal_to_intrusions)
+    intru_needed = int(total * intrusion_fraction)
     normal_needed = total - intru_needed
     normal_sample = normal.sample(n=min(normal_needed, len(normal)), replace=False, random_state=seed)
     intru_sample = intru.sample(n=min(intru_needed, len(intru)), replace=False, random_state=seed)
