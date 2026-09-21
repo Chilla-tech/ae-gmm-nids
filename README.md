@@ -26,30 +26,44 @@ A two-stage hybrid approach for network intrusion detection:
 
 ```
 ae_gmm_nids/
-├── README.md
-├── LICENSE
-├── CITATION.md
-├── requirements.txt
-├── data/
-│   ├── README.md              # Dataset download instructions
-│   └── toy_dataset.csv        # 5K samples for quick verification
-├── models/
-│   ├── ae.py                  # Autoencoder implementation
-│   ├── gmm.py                 # GMM implementation
-│   └── ae_gmm_hybrid.py       # Hybrid pipeline
-├── training/
-│   ├── train_ae.py            # AE training logic
-│   └── full_train.py          # Full pipeline training
-├── inference/
-│   ├── calculate_thres.py     # Threshold computation
-│   ├── load_models_n_explainers.py
-│   └── predict_n_explain.py   # Prediction with SHAP explanations
-├── utils/
-│   ├── prepro.py              # Data preprocessing
-│   ├── evaluation.py          # Evaluation metrics
-│   ├── visual.py              # Visualization
-│   └── shap_aegmm_wrappers.py # SHAP wrapper classes
-├── pretrained/                # Pretrained models (paper baseline)
+├── README.md                          # This file
+├── LICENSE                            # MIT License
+├── CITATION.cff                       # Citation metadata (used by GitHub/Zenodo)
+├── CITATION.md                        # BibTeX for this work, the dataset and SHAP
+├── requirements.txt                   # Python dependencies
+├── .gitignore                         # Git ignore rules
+│
+├── data/                              # Dataset directory
+│   ├── README.md                      # Dataset instructions
+│   ├── toy_dataset.csv                # Small dataset for verification (2-3K samples)
+│   └── heldout_test_indices.csv       # Row indices of the paper's held-out test split
+│
+├── models/                            # Model definitions
+│   ├── ae.py                          # Autoencoder implementation
+│   ├── gmm.py                         # GMM implementation
+│   └── ae_gmm_hybrid.py               # Hybrid pipeline
+│
+├── training/                          # Training scripts
+│   ├── train_ae.py                    # AE training logic
+│   └── full_train.py                  # Full pipeline training (main entry)
+│
+├── inference/                         # Inference scripts
+│   ├── calculate_thres.py             # Threshold computation
+│   ├── load_models_n_explainers.py    # Model loading utilities
+│   └── predict_n_explain.py           # Prediction with SHAP explanations
+│
+├── utils/                             # Utility functions
+│   ├── prepro.py                      # Data preprocessing
+│   ├── evaluation.py                  # Evaluation metrics
+│   ├── visual.py                      # Visualization functions
+│   └── shap_aegmm_wrappers.py         # SHAP wrapper classes
+│
+├── scripts/                           # Helper scripts
+│   ├── reproduce_heldout_eval.py      # Regenerate the paper's held-out split and McNemar test
+│   └── export_vector_figures.py       # Export the paper's plots as vector PDF/SVG/EPS
+│
+├── pretrained/                        # Pretrained models (paper baseline)
+│   ├── README.md                      # Model documentation
 │   └── complete_package_20250914_065942/
 ├── results/                   # Reference outputs for verification
 └── demo_notebooks/
@@ -65,10 +79,11 @@ ae_gmm_nids/
 
 ### Setup
 
-1. Download this repository:
-
-   Download the ZIP from https://anonymous.4open.science/r/ae-gmm-nids-BD18
-
+1. Clone this repository:
+```bash
+git clone https://github.com/Chilla-tech/ae-gmm-nids.git
+cd ae-gmm-nids
+```
 
 2. Create a virtual environment (recommended):
    ```bash
@@ -116,6 +131,10 @@ Reproduces the complete training pipeline from scratch.
 Uses the **CSE-CIC-IDS2018-Improved** dataset. See `data/README.md` for download instructions.
 
 A toy dataset (`data/toy_dataset.csv`, 5K samples) is included for quick verification.
+
+## Citation
+
+If you use this code, please cite it via [CITATION.cff](CITATION.cff) (GitHub's "Cite this repository" button). A Zenodo DOI will be added here after the archived release is published.
 
 ## License
 

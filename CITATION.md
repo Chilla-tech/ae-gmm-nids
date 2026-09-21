@@ -1,35 +1,25 @@
 # Citation
 
-This repository contains the code and artifacts for the manuscript:
+Preferred citation metadata for the software is in [CITATION.cff](CITATION.cff).
+
+This repository accompanies the manuscript:
 
 **"AE-GMM: A Hybrid, Interpretable Approach for Robust Network Intrusion Detection"**
-
-*Anonymous Authors*  
-*Anonymous Submission - [Conference/Journal Name]*
-
----
+Trokon Karr, Fudan University. Submitted to the *Journal of Information Security and Applications*.
 
 ## BibTeX
 
 ```bibtex
-@article{anonymous2025aegmm,
+@article{karr2026aegmm,
   title={AE-GMM: A Hybrid, Interpretable Approach for Robust Network Intrusion Detection},
-  author={Anonymous},
-  journal={[To be updated upon publication]},
-  year={2025},
-  note={Code available at: [repository URL]}
+  author={Karr, Trokon},
+  journal={Journal of Information Security and Applications},
+  year={2026},
+  note={Under review. Code: https://github.com/Chilla-tech/ae-gmm-nids}
 }
 ```
 
----
-
-## Plain Text
-
-Anonymous Authors. (2025). AE-GMM: A Hybrid, Interpretable Approach for Robust Network Intrusion Detection. [To be updated upon publication].
-
----
-
-**Note**: This citation will be updated with complete author information, publication venue, and DOI upon acceptance and publication of the paper.
+The Zenodo DOI of the archived software release will be added here once published.
 
 ## Citing the Dataset
 
@@ -45,8 +35,6 @@ organization={IEEE}
 ```
 
 ## Citing SHAP
-
-If you reference the SHAP explainability framework, please cite:
 
 ```bibtex
 @inproceedings{lundberg2017unified,

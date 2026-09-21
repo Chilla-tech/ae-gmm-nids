@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "AE-GMM NIDS: A Hybrid, Interpretable Approach for Robust Network Intrusion Detection"
+type: software
+authors:
+  - family-names: Karr
+    given-names: Trokon
+    orcid: "https://orcid.org/0009-0006-9143-6097"
+    affiliation: "Fudan University"
+repository-code: "https://github.com/Chilla-tech/ae-gmm-nids"
+license: MIT
+keywords:
+  - network intrusion detection
+  - autoencoder
+  - gaussian mixture model
+  - explainable AI
+  - SHAP
