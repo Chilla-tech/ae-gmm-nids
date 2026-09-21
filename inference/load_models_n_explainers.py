@@ -67,6 +67,11 @@ def load_complete_package(package_dir):
     Parameters:
     - package_dir: directory containing the model package and SHAP explainers
     """
+    # The pretrained SHAP explainers were pickled from __main__, so the wrapper class must be
+    # resolvable there when they are unpickled (works from scripts and notebooks alike).
+    import sys
+    setattr(sys.modules["__main__"], "PicklableShapWrapper", PicklableShapWrapper)
+
     models = joblib.load(f"{package_dir}/aegmm_model_package.joblib")
     print("Model package loaded.")
 

@@ -65,3 +65,20 @@ env/
 # OS
 Thumbs.db
 .DS_Store
+
+# Manuscript drafting material (not part of the software release)
+AEGMM__ACM____SIG_Proceedings_Template/
+AEGMM__ACM____SIG_Proceedings_Template.zip
+aegmm_nids_project_latex_manuscript(archived)/
+els-cas-templates/
+jisa_manuscript/
+JISA_guide.md
+Guide for authors*
+References.txt
+Updated Full Drafted Manuscript.pdf
+
+# Internal setup notes and scratch work
+NEXT_STEPS.md
+SETUP_COMPLETE.md
+pretrained/misc/
+pretrained/view_per_rep.ipynb
