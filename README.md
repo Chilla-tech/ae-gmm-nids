@@ -35,8 +35,7 @@ ae_gmm_nids/
 │
 ├── data/                              # Dataset directory
 │   ├── README.md                      # Dataset instructions
-│   ├── toy_dataset.csv                # Small dataset for verification (2-3K samples)
-│   └── heldout_test_indices.csv       # Row indices of the paper's held-out test split
+│   └── toy_dataset.csv                # Small dataset for verification (2-3K samples)
 │
 ├── models/                            # Model definitions
 │   ├── ae.py                          # Autoencoder implementation
@@ -59,8 +58,7 @@ ae_gmm_nids/
 │   └── shap_aegmm_wrappers.py         # SHAP wrapper classes
 │
 ├── scripts/                           # Helper scripts
-│   ├── reproduce_heldout_eval.py      # Regenerate the paper's held-out split and McNemar test
-│   └── export_vector_figures.py       # Export the paper's plots as vector PDF/SVG/EPS
+│   └── reproduce_heldout_eval.py      # Regenerate the paper's held-out split and McNemar test
 │
 ├── pretrained/                        # Pretrained models (paper baseline)
 │   ├── README.md                      # Model documentation
@@ -142,7 +140,7 @@ The preprocessing in `utils/prepro.py` follows the pipeline used for the reporte
 python scripts/reproduce_heldout_eval.py --data path/to/CSECIC-IDS2018_subset.csv
 ```
 
-The row indices of the held-out test set are provided in `data/heldout_test_indices.csv` (row positions in the raw CSV, i.e. the pandas index after `pd.read_csv`).
+Pass `--save-indices` to also write the held-out test set's row indices to `data/heldout_test_indices.csv` (row positions in the raw CSV, i.e. the pandas index after `pd.read_csv`); this file is not committed to the repository since it is fully reproducible from the script with the fixed random seeds.
 
 ## Usage
 
