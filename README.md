@@ -140,8 +140,6 @@ The preprocessing in `utils/prepro.py` follows the pipeline used for the reporte
 python scripts/reproduce_heldout_eval.py --data path/to/CSECIC-IDS2018_subset.csv
 ```
 
-Pass `--save-indices` to also write the held-out test set's row indices to `data/heldout_test_indices.csv` (row positions in the raw CSV, i.e. the pandas index after `pd.read_csv`); this file is not committed to the repository since it is fully reproducible from the script with the fixed random seeds.
-
 ## Usage
 
 ### Quick Inference with Pretrained Model
