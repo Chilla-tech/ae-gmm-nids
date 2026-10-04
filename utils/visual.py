@@ -5,7 +5,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
-def plot_mae_distribution(mae_errors, labels, threshold_mae, bins=50, range_=None):
+def _finish(save_path=None):
+    """Save to a vector/raster file if save_path is given (e.g. 'fig.pdf', 'fig.svg'),
+    in addition to showing the plot. The format is inferred from the file extension."""
+    plt.tight_layout()
+    if save_path:
+        plt.savefig(save_path, bbox_inches='tight')
+    plt.show()
+
+def plot_mae_distribution(mae_errors, labels, threshold_mae, bins=50, range_=None, save_path=None):
     """
     Plot MAE reconstruction error distribution for Normal vs Anomaly with threshold line.
     - mae_errors: 1D numpy array of MAE per sample (scaled space).
@@ -13,6 +21,7 @@ def plot_mae_distribution(mae_errors, labels, threshold_mae, bins=50, range_=Non
     - threshold_mae: float, MAE decision threshold.
     - bins: int, histogram bins.
     - range_: tuple(min, max) for histogram x-range (optional).
+    - save_path: optional path to also save the figure to, e.g. 'fig.pdf' for a true vector file.
     """
     labels = np.array(labels)
     normal_mask = labels == 'BENIGN'
@@ -29,10 +38,9 @@ def plot_mae_distribution(mae_errors, labels, threshold_mae, bins=50, range_=Non
     plt.title('Distribution of Reconstruction Errors (MAE)')
     plt.legend()
     plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.show()
+    _finish(save_path)
 
-def plot_gmm_score_distribution(gmm_scores, labels, threshold_gmm, bins=50, range_=(-50, 100)):
+def plot_gmm_score_distribution(gmm_scores, labels, threshold_gmm, bins=50, range_=(-50, 100), save_path=None):
     """
     Plot GMM log-probability scores for Normal vs Anomaly with decision boundary.
     - gmm_scores: 1D numpy array of GMM score_samples outputs.
@@ -40,6 +48,7 @@ def plot_gmm_score_distribution(gmm_scores, labels, threshold_gmm, bins=50, rang
     - threshold_gmm: float, GMM decision threshold (lower => more anomalous).
     - bins: int, histogram bins.
     - range_: tuple(min, max) for histogram x-range.
+    - save_path: optional path to also save the figure to, e.g. 'fig.pdf' for a true vector file.
     """
     labels = np.array(labels)
     normal_mask = labels == 'BENIGN'
@@ -54,16 +63,16 @@ def plot_gmm_score_distribution(gmm_scores, labels, threshold_gmm, bins=50, rang
     plt.title('Distribution of GMM Scores')
     plt.legend()
     plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.show()
+    _finish(save_path)
 
-def plot_confusion_matrices(y_true_binary, y_pred_mae_binary, y_pred_gmm_binary, class_names=('Normal','Anomaly')):
+def plot_confusion_matrices(y_true_binary, y_pred_mae_binary, y_pred_gmm_binary, class_names=('Normal','Anomaly'), save_path=None):
     """
     Plot side-by-side confusion matrices for MAE-only and AE+GMM predictions.
     - y_true_binary: 1D array of ground truth (0=Normal, 1=Anomaly).
     - y_pred_mae_binary: 1D array of MAE-based predictions (0/1).
     - y_pred_gmm_binary: 1D array of GMM-based predictions (0/1).
     - class_names: tuple of class display names aligned with 0/1.
+    - save_path: optional path to also save the figure to, e.g. 'fig.pdf' for a true vector file.
     """
     cm_mae = confusion_matrix(y_true_binary, y_pred_mae_binary)
     cm_gmm = confusion_matrix(y_true_binary, y_pred_gmm_binary)
@@ -79,5 +88,4 @@ def plot_confusion_matrices(y_true_binary, y_pred_mae_binary, y_pred_gmm_binary,
     axes[1].set_xlabel('Predicted')
     axes[1].set_ylabel('Actual')
 
-    plt.tight_layout()
-    plt.show()
+    _finish(save_path)

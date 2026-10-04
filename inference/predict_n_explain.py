@@ -108,7 +108,8 @@ def shap_values_v2(ae_explainer, gmm_explainer, feature_names, sample):
     gmm_sv = gmm_explainer(df)
     return ae_sv, gmm_sv
 
-def plot_waterfalls(ae_shap_values, gmm_shap_values, max_display=15, show_ae=False):
+def plot_waterfalls(ae_shap_values, gmm_shap_values, max_display=15, show_ae=False,
+                     save_path_ae=None, save_path_gmm=None):
     """
     Show waterfall plots for SHAP values.
     Parameters:
@@ -116,17 +117,29 @@ def plot_waterfalls(ae_shap_values, gmm_shap_values, max_display=15, show_ae=Fal
     - gmm_shap_values: SHAP values for GMM score stage
     - max_display: maximum number of features to display
     - show_ae: whether to show AE MAE SHAP explanation
+    - save_path_ae / save_path_gmm: optional paths to also save each figure to, e.g. 'fig.pdf'
+      for a true vector file (shap.plots.waterfall draws with matplotlib, so any matplotlib-
+      supported extension works: .pdf, .svg, .eps, .png, ...).
     """
+    import matplotlib.pyplot as plt
+
     print("="*100)
     print("=== SHAP Explanation Results ===")
     print("="*100)
     if show_ae:
         print("Autoencoder MAE SHAP Explanation:")
-        shap.plots.waterfall(ae_shap_values[0], max_display=max_display, show=True)
+        shap.plots.waterfall(ae_shap_values[0], max_display=max_display, show=False)
+        if save_path_ae:
+            plt.savefig(save_path_ae, bbox_inches='tight')
+        plt.show()
     print("======== GMM Score SHAP Explanation: =========")
-    shap.plots.waterfall(gmm_shap_values[0], max_display=max_display, show=True)
+    shap.plots.waterfall(gmm_shap_values[0], max_display=max_display, show=False)
+    if save_path_gmm:
+        plt.savefig(save_path_gmm, bbox_inches='tight')
+    plt.show()
 
-def predict_and_visualize_single_flow(pkg, sample, actual_label, show_ae=False):
+def predict_and_visualize_single_flow(pkg, sample, actual_label, show_ae=False,
+                                       save_path_ae=None, save_path_gmm=None):
     """
     predict and explain a single sample using the loaded package.
     Parameters:
@@ -134,6 +147,8 @@ def predict_and_visualize_single_flow(pkg, sample, actual_label, show_ae=False):
     - sample: input sample to predict and explain
     - actual_label: actual label of the sample for comparison
     - show_ae: whether to show AE MAE SHAP explanation
+    - save_path_ae / save_path_gmm: optional paths to also save each SHAP waterfall figure to,
+      e.g. 'fig.pdf' for a true vector file.
     """
     prediction_result=predict_single_flow(pkg, sample)
     ae_shap_values, gmm_shap_values = shap_values(pkg, sample)
@@ -146,4 +161,5 @@ def predict_and_visualize_single_flow(pkg, sample, actual_label, show_ae=False):
     print(f"Stage 2 (GMM Score) Score: {prediction_result['stage2_gmm_score']:.6f}")
     print(f"Final Classification: {prediction_result['final_class']}")
 
-    plot_waterfalls(ae_shap_values, gmm_shap_values, show_ae=show_ae)
+    plot_waterfalls(ae_shap_values, gmm_shap_values, show_ae=show_ae,
+                     save_path_ae=save_path_ae, save_path_gmm=save_path_gmm)
